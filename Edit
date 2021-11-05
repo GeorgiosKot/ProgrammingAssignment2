@@ -1,0 +1,53 @@
+## Matrix inversion commonly consists of many computation and  some of its benefit 
+## Matrix cache commonly consists of many computation and  some of its benefit 
+## is to cache the inverse of a matrix that is comparative to computing repeatedly.
+
+## The inverse of a matrix is cached by a pair of functions.
+## The cache of a matrix is cached by a pair of functions.
+## It is used to provide the result of a makeCacheMatrix call to the cacheSolve method.
+## This is a typical way for creating a matrix that can cache its inverse input x
+## The main point is that it is a matrix
+
+## makeCacheMatrix and cacheSolve are the two functions that will be used.
+## makeCacheMatrix: This function produces a "matrix" object.
+## which might be able to cache its inverse
+## cacheSolve: This function computes the inverse of the particular "matrix" stated earlier.
+## cacheSolve: The function computes the cache of the particular "matrix" stated earlier.
+
+makeCacheMatrix <- function(x = matrix()){
+  inv <- NULL
+  set <- function(y){
+    x <<- y
+    inv <<- NULL
+    
+  }
+  get <- function() {x}
+  setInverse <- function(inverse) {inv <<- inverse}
+  getInverse <- function() {inv}
+  list( set = set, get = get, setInverse = setInverse, getInverse = getInverse)
+}
+
+CacheSolve <- function(x, ...) {
+  inv <- x$getInverse()
+  if(!is.null(inv)){
+    message("getting cached data")
+    return(inv)
+    }
+  mat <- x$get()
+    inv <- solve(mat, ...)
+    x$setInverse(inv)
+    inv
+}
+
+#testing code
+
+
+pmatrix<- makeCacheMatrix(matrix(1:4, ncol = 2, nrow = 2))
+
+pmatrix$get()
+pmatrix$getInverse()
+CacheSolve(pmatrix)
+CacheSolve(pmatrix)
+pmatrix$getInverse()
+
+##the lines 45 - 51 is to test if the code runs propetly
